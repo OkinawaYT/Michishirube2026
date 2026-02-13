@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ミチシルベ 2026 | OFFICIAL APP</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&family=Zen+Kaku+Gothic+New:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Zen Kaku Gothic New', 'sans-serif'],
+                        display: ['Outfit', 'Zen Kaku Gothic New', 'sans-serif']
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e'
+                        },
+                        accent: {
+                            50: '#fdf4ff',
+                            100: '#fae8ff',
+                            500: '#d946ef',
+                            600: '#c026d3',
+                            700: '#a21caf'
+                        },
+                        slate: { 850: '#1e293b', 950: '#020617' }
+                    },
+                    boxShadow: {
+                        'soft': '0 2px 15px -3px rgba(0, 0, 0, 0.07), 0 10px 20px -2px rgba(0, 0, 0, 0.04)',
+                        'strong': '0 10px 40px -3px rgba(0, 0, 0, 0.1), 0 20px 25px -5px rgba(0, 0, 0, 0.05)',
+                        'glow': '0 0 20px rgba(14, 165, 233, 0.3)',
+                        'glow-strong': '0 0 30px rgba(14, 165, 233, 0.5)'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        [x-cloak] { display: none !important; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .bento-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(0,0,0,0.06);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .bento-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(14, 165, 233, 0.1);
+            border-color: rgba(14, 165, 233, 0.2);
+        }
+
+        .bento-card:active {
+            transform: translateY(-2px) scale(0.99);
+        }
+
+        .tab-active {
+            color: #0284c7;
+            position: relative;
+            font-weight: 800;
+        }
+
+        .tab-active::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 24px;
+            height: 4px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #0ea5e9, #06b6d4);
+            box-shadow: 0 2px 8px rgba(14, 165, 233, 0.5);
+        }
+
+        body {
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            overflow-x: hidden;
+            background-image: url('data/bg.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(248, 250, 252, 0.65) 0%, rgba(241, 245, 249, 0.55) 100%);
+            z-index: -1;
+            pointer-events: none;
+        }
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .social-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .social-icon-wide {
+            width: 56px;
+            height: 40px;
+        }
+
+        .social-icon-wide img {
+            object-fit: contain;
+            padding: 4px;
+        }
+            border-radius: 32px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+        }
+
+        .campus-map-container img:hover {
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.16), 0 4px 12px rgba(0, 0, 0, 0.12);
+            transform: scale(1.01);
+        }
+
+        h2, h3, h4 {
+            font-family: 'Outfit', 'Zen Kaku Gothic New', sans-serif;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .badge-glow {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(14, 165, 233, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(14, 165, 233, 0.6);
+            }
+        }
+
+        .loading-shimmer {
+            background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+    </style>
+</head>
+<body class="bg-[#F8FAFC] text-slate-900" x-data="app()" @init="init()">
+
+    <header class="bg-white pt-6 pb-4 px-6 border-b border-slate-100 sticky top-0 z-40">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex justify-between items-center mb-3">
+                <a href="https://michishirube.okinawa/" class="block" aria-label="ミチシルベ公式サイト">
+                    <img src="https://raw.githubusercontent.com/OkinawaYT/Michishirube2026/main/data/logo.svg" alt="ミチシルベ 2026" class="h-12">
+                </a>
+                <div class="flex items-center bg-gradient-to-r from-emerald-50 to-green-50 px-4 py-2 rounded-full border-2 border-emerald-200 shadow-soft badge-glow">
+                    <span class="relative flex h-2.5 w-2.5 mr-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                    </span>
+                    <span class="text-[11px] font-black text-emerald-700 uppercase tracking-tight">System Live</span>
+                </div>
+            </div>
+            <div class="flex justify-center gap-3">
+                <a href="https://www.instagram.com/michishirube_umulab/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Instagram">
+                    <img src="data/icon_Instagram.png" alt="Instagram">
+                </a>
+                <a href="https://note.com/michishirube_um3" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="note">
+                    <img src="data/icon_note.png" alt="note">
+                </a>
+                <a href="https://page.line.me/607djzmm?oat_content=url&openQrModal=true%E2%81%A9" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="LINE">
+                    <img src="data/icon_LINE.png" alt="LINE">
+                </a>
+                <a href="https://yokatta.app/event-detail/michishirube2026" target="_blank" rel="noopener noreferrer" class="social-icon social-icon-wide" aria-label="YOKATTA">
+                    <img src="data/icon_yokatta.png" alt="YOKATTA">
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto p-6 pb-32">
+
+        <section x-show="activeTab === 'news'" x-transition class="space-y-6">
+            <div class="flex items-center justify-between">
+                <h2 class="text-2xl font-black flex items-center gap-3 font-display">
+                    <span class="w-2 h-8 bg-gradient-to-b from-brand-500 to-brand-600 rounded-full shadow-glow"></span>
+                    <span class="gradient-text">お知らせ履歴</span>
+                </h2>
+                <span class="text-xs font-bold text-slate-400 bg-slate-50 px-3 py-1.5 rounded-full" x-text="notices.length + ' UPDATES'"></span>
+            </div>
+            <div class="space-y-4">
+                <template x-for="n in notices" :key="n.time">
+                    <div class="bg-white p-6 rounded-[28px] bento-card border-l-4 border-l-brand-500 shadow-soft">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-[10px] font-black text-brand-500 bg-brand-50 px-2 py-0.5 rounded-md" x-text="n.time"></span>
+                        </div>
+                        <p class="text-sm font-bold text-slate-700 leading-relaxed" x-text="n.content"></p>
+                    </div>
+                </template>
+            </div>
+        </section>
+
+        <section x-show="activeTab === 'timetable'" x-transition class="space-y-6">
+            <div class="campus-map-container">
+                <img src="data/campus_map.png" alt="キャンパスマップ">
+            </div>
+
+            <h2 class="text-2xl font-black flex items-center gap-3 font-display">
+                <span class="w-2 h-8 bg-gradient-to-b from-brand-500 to-brand-600 rounded-full shadow-glow"></span>
+                <span class="gradient-text">タイムテーブル</span>
+            </h2>
+
+            <div class="space-y-4 p-6 bg-white/80 backdrop-blur-sm rounded-[28px] shadow-soft border border-slate-100">
+                <h3 class="text-base font-black text-slate-800 font-display">フィルタ条件</h3>
+                <div class="space-y-3">
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                        <div>
+                            <label class="text-xs font-bold text-slate-500 block mb-2">会場(ラベル)</label>
+                            <select x-model="timetableFilter.venue" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs font-medium focus:outline-none focus:ring-2 focus:ring-brand-500">
+                                <option value="">すべて</option>
+                                <template x-for="v in uniqueVenues" :key="v.id">
+                                    <option :value="v.id" x-text="v.id + ' - ' + v.name"></option>
+                                </template>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-slate-500 block mb-2">会場(場所)</label>
+                            <select x-model="timetableFilter.location" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs font-medium focus:outline-none focus:ring-2 focus:ring-brand-500">
+                                <option value="">すべて</option>
+                                <template x-for="v in uniqueVenues" :key="v.id">
+                                    <option :value="v.id" x-text="v.location"></option>
+                                </template>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-slate-500 block mb-2">時間</label>
+                            <select x-model="timetableFilter.time" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs font-medium focus:outline-none focus:ring-2 focus:ring-brand-500">
+                                <option value="">すべて</option>
+                                <template x-for="s in uniqueTimes" :key="s">
+                                    <option :value="s" x-text="s"></option>
+                                </template>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-slate-500 block mb-2">登壇者</label>
+                            <select x-model="timetableFilter.speaker" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs font-medium focus:outline-none focus:ring-2 focus:ring-brand-500">
+                                <option value="">すべて</option>
+                                <template x-for="name in uniqueSpeakerNames" :key="name">
+                                    <option :value="name" x-text="name"></option>
+                                </template>
+                            </select>
+                        </div>
+                    </div>
+                    <button @click="resetTimetableFilter()" class="text-xs font-bold text-brand-600 hover:text-brand-700">リセット</button>
+                </div>
+            </div>
+
+            <div class="space-y-10">
+                <template x-for="slot in filteredTimeline" :key="slot.time_range">
+                    <div class="relative pl-10 border-l-4 border-gradient-to-b from-brand-300 to-brand-100 space-y-5">
+                        <div class="absolute -left-[13px] top-0 w-6 h-6 rounded-full bg-gradient-to-br from-brand-400 to-brand-600 border-4 border-white shadow-glow"></div>
+                        <div class="flex items-baseline gap-4">
+                            <span class="text-2xl font-black tracking-tight text-brand-600 font-display" x-text="slot.time_range"></span>
+                            <span class="text-sm font-bold text-slate-500 bg-slate-50 px-3 py-1 rounded-full" x-text="slot.label"></span>
+                        </div>
+
+                        <template x-if="slot.plenary_title">
+                            <div class="bg-gradient-to-br from-brand-500 via-brand-600 to-brand-700 p-7 rounded-[32px] text-white shadow-strong relative overflow-hidden">
+                                <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
+                                <p class="text-[11px] font-black text-brand-100 uppercase tracking-widest mb-2 relative z-10">Main Event</p>
+                                <h3 class="text-xl font-black relative z-10 font-display" x-text="slot.plenary_title"></h3>
+                            </div>
+                        </template>
+
+                        <template x-if="slot.is_parallel">
+                            <div class="grid grid-cols-1 gap-4">
+                                <template x-for="s in getFilteredSessionsByTime(slot.time_range)" :key="s.id">
+                                    <div @click="openSession(s)" class="bg-white p-5 rounded-[28px] bento-card flex items-center gap-5 cursor-pointer">
+                                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-brand-50 to-brand-100 flex items-center justify-center text-sm font-black text-brand-600 border-2 border-brand-200 shadow-soft" x-text="s.venue_id"></div>
+                                        <div class="flex-1 min-w-0">
+                                            <h4 class="text-base font-black text-slate-800 mb-1" x-text="s.title"></h4>
+                                            <p class="text-xs text-slate-500 font-bold" x-text="s.code"></p>
+                                        </div>
+                                        <i class="fa-solid fa-chevron-right text-brand-300 text-sm"></i>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+            </div>
+        </section>
+
+        <section x-show="activeTab === 'speakers'" x-transition class="space-y-6">
+            <h2 class="text-2xl font-black flex items-center gap-3 font-display">
+                <span class="w-2 h-8 bg-gradient-to-b from-brand-500 to-brand-600 rounded-full shadow-glow"></span>
+                <span class="gradient-text">登壇者一覧</span>
+            </h2>
+            <div class="relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-5 top-1/2 -translate-y-1/2 text-brand-400 text-sm"></i>
+                <input x-model="speakerSearchQuery"
+                       type="text"
+                       placeholder="名前や所属で検索..."
+                       class="w-full pl-14 pr-6 py-4 bg-white border-2 border-slate-100 rounded-[24px] text-sm font-medium placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-400 focus:border-transparent transition-all shadow-soft hover:shadow-strong">
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-5">
+                <template x-for="speaker in filteredSpeakers" :key="speaker.id">
+                    <div @click="openSpeaker(speaker)" class="bg-white p-6 rounded-[36px] bento-card text-center cursor-pointer">
+                        <div class="relative inline-block mb-5">
+                            <template x-if="speaker.image">
+                                <img :src="speaker.image" class="w-24 h-24 rounded-[28px] object-cover mx-auto shadow-strong border-4 border-white" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            </template>
+                            <div x-show="!speaker.image" class="w-24 h-24 rounded-[28px] bg-gradient-to-br from-brand-400 via-brand-500 to-brand-600 mx-auto shadow-strong flex items-center justify-center text-white text-3xl font-black border-4 border-white">
+                                <span x-text="speaker.name ? speaker.name.charAt(0) : '?'"></span>
+                            </div>
+                            <div class="absolute -bottom-2 -right-2 w-8 h-8 bg-gradient-to-br from-brand-500 to-brand-600 rounded-2xl flex items-center justify-center text-white text-sm shadow-glow">
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-base font-black text-slate-800 mb-2 font-display" x-text="speaker.name"></h3>
+                        <p class="text-[10px] font-bold text-slate-500 line-clamp-2 leading-relaxed" x-text="speaker.affiliation"></p>
+                    </div>
+                </template>
+            </div>
+            <template x-if="filteredSpeakers.length === 0">
+                <div class="text-center py-16 bg-slate-50 rounded-[32px]">
+                    <i class="fa-solid fa-users-slash text-4xl text-slate-300 mb-4"></i>
+                    <p class="text-slate-500 font-bold">登壇者が見つかりません</p>
+                </div>
+            </template>
+        </section>
+
+        <section x-show="activeTab === 'parking'" x-transition class="space-y-8">
+            <div class="campus-map-container">
+                <img src="data/campus_map.png" alt="キャンパスマップ">
+            </div>
+
+            <div class="text-center space-y-3">
+                <h2 class="text-3xl font-[900] tracking-tight font-display gradient-text">駐車場混雑状況</h2>
+                <p class="text-sm font-bold text-slate-500 bg-slate-50 inline-block px-4 py-2 rounded-full">地区別最新情報</p>
+            </div>
+            <div class="grid grid-cols-1 gap-6">
+                <template x-for="p in parking" :key="p.name">
+                    <div class="bg-white p-8 rounded-[40px] shadow-sm border border-slate-50 flex flex-col md:flex-row items-center justify-between gap-8">
+                        <div class="text-center md:text-left">
+                            <span class="text-lg font-black text-white bg-brand-600 px-5 py-2.5 rounded-full uppercase tracking-widest" x-text="p.name"></span>
+                            <div class="text-4xl font-[900] mt-4 tracking-tighter" :class="p.ratio >= 100 ? 'text-red-600' : 'text-slate-900'">
+                                <span x-text="p.ratio >= 100 ? '満車' : '空きあり'"></span>
+                            </div>
+                            <p class="text-xs font-bold text-slate-400 mt-2">最終更新: <span x-text="p.time"></span></p>
+                        </div>
+                        <div class="relative w-32 h-32">
+                            <svg class="w-full h-full transform -rotate-90">
+                                <circle cx="64" cy="64" r="56" stroke="currentColor" stroke-width="12" fill="transparent" class="text-slate-50" />
+                                <circle cx="64" cy="64" r="56" stroke="currentColor" stroke-width="12" fill="transparent"
+                                        stroke-dasharray="351.8"
+                                        :stroke-dashoffset="351.8 - (351.8 * p.ratio / 100)"
+                                        :class="p.ratio >= 100 ? 'text-red-500' : 'text-emerald-500'"
+                                        stroke-linecap="round"
+                                        class="transition-all duration-[1.5s] cubic-bezier(0.4, 0, 0.2, 1)" />
+                            </svg>
+                            <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                <span class="text-2xl font-black text-slate-800" x-text="p.ratio + '%'"></span>
+                                <span class="text-[8px] font-black text-slate-400 uppercase tracking-widest">Ratio</span>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </section>
+
+        <section x-show="activeTab === 'recommend'" x-transition class="space-y-8">
+            <div class="bg-gradient-to-br from-brand-500 via-brand-600 to-brand-700 p-10 rounded-[40px] text-white shadow-strong relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
+                <div class="relative z-10">
+                    <h2 class="text-3xl font-black mb-3 font-display">Find Your Way.</h2>
+                    <p class="text-base opacity-90 font-medium">興味のあるタグをタップして、あなたにぴったりのセッションを見つけてください。</p>
+                </div>
+            </div>
+
+            <div class="space-y-5">
+                <div class="flex flex-wrap gap-3">
+                    <template x-for="tag in dynamicAvailableTags" :key="tag">
+                        <button @click="toggleTag(tag)"
+                                :class="selectedTags.includes(tag) ? 'bg-gradient-to-r from-brand-500 to-brand-600 text-white shadow-glow-strong scale-105 border-2 border-brand-400' : 'bg-white text-slate-600 border-2 border-slate-200 hover:border-brand-300'"
+                                class="px-6 py-3 rounded-2xl text-sm font-black transition-all transform duration-300 cursor-pointer shadow-soft">
+                            <span x-text="'#' + tag"></span>
+                        </button>
+                    </template>
+                </div>
+                <template x-if="selectedTags.length > 0">
+                    <button @click="selectedTags = []" class="text-sm font-bold text-brand-600 hover:text-brand-700 bg-brand-50 px-4 py-2 rounded-xl transition-all hover:bg-brand-100">
+                        <i class="fa-solid fa-rotate-right mr-2"></i>選択をリセット
+                    </button>
+                </template>
+            </div>
+
+            <div class="space-y-5 pt-4">
+                <template x-for="s in filteredSessions" :key="s.id">
+                    <div @click="openSession(s)" class="bg-white p-7 rounded-[36px] bento-card flex flex-col gap-5 cursor-pointer">
+                        <div class="flex items-start gap-6">
+                            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-brand-50 to-brand-100 flex flex-col items-center justify-center flex-shrink-0 border-2 border-brand-200 shadow-soft">
+                                <span class="text-[10px] font-black text-brand-600 uppercase" x-text="s.venue_id"></span>
+                                <span class="text-base font-black text-brand-600 font-display" x-text="s.time.split('-')[0]"></span>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <h3 class="text-lg font-black text-slate-800 leading-tight mb-3 font-display" x-text="s.title"></h3>
+                                <div class="flex flex-wrap gap-2 mb-4">
+                                    <template x-for="tag in s.hashtags" :key="tag">
+                                        <span :class="selectedTags.includes(tag) ? 'bg-gradient-to-r from-brand-100 to-brand-50 text-brand-700 border border-brand-300' : 'bg-slate-50 text-slate-500 border border-slate-200'" class="text-xs font-bold px-3 py-1.5 rounded-xl transition-all" x-text="'#'+tag"></span>
+                                    </template>
+                                </div>
+                                <p class="text-sm text-slate-600 line-clamp-2 leading-relaxed" x-text="s.description"></p>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+                <template x-if="filteredSessions.length === 0">
+                    <div class="text-center py-16 bg-slate-50 rounded-[32px]">
+                        <i class="fa-solid fa-search-minus text-4xl text-slate-300 mb-4"></i>
+                        <p class="text-slate-500 font-bold">選択されたタグに合致するセッションがありません</p>
+                    </div>
+                </template>
+            </div>
+        </section>
+
+    </main>
+
+    <nav class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[92%] max-w-lg glass-nav rounded-[36px] p-3 flex justify-between items-center z-50 shadow-strong">
+        <button @click="activeTab = 'news'" :class="activeTab === 'news' && 'tab-active'" class="flex-1 py-3 flex flex-col items-center gap-1.5 transition-all duration-300 rounded-2xl hover:bg-white/50">
+            <i class="fa-solid fa-bell text-xl"></i>
+            <span class="text-[9px] font-black uppercase tracking-tight">お知らせ</span>
+        </button>
+        <button @click="activeTab = 'timetable'" :class="activeTab === 'timetable' && 'tab-active'" class="flex-1 py-3 flex flex-col items-center gap-1.5 transition-all duration-300 rounded-2xl hover:bg-white/50">
+            <i class="fa-solid fa-calendar-days text-xl"></i>
+            <span class="text-[9px] font-black uppercase tracking-tight">タイムテーブル</span>
+        </button>
+        <button @click="activeTab = 'speakers'" :class="activeTab === 'speakers' && 'tab-active'" class="flex-1 py-3 flex flex-col items-center gap-1.5 transition-all duration-300 rounded-2xl hover:bg-white/50">
+            <i class="fa-solid fa-user-astronaut text-xl"></i>
+            <span class="text-[9px] font-black uppercase tracking-tight">登壇者</span>
+        </button>
+        <button @click="activeTab = 'parking'" :class="activeTab === 'parking' && 'tab-active'" class="flex-1 py-3 flex flex-col items-center gap-1.5 transition-all duration-300 rounded-2xl hover:bg-white/50">
+            <i class="fa-solid fa-square-parking text-xl"></i>
+            <span class="text-[9px] font-black uppercase tracking-tight">駐車場</span>
+        </button>
+        <button @click="activeTab = 'recommend'" :class="activeTab === 'recommend' && 'tab-active'" class="flex-1 py-3 flex flex-col items-center gap-1.5 transition-all duration-300 rounded-2xl hover:bg-white/50">
+            <i class="fa-solid fa-star text-xl"></i>
+            <span class="text-[9px] font-black uppercase tracking-tight">おすすめ</span>
+        </button>
+    </nav>
+
+    <div x-show="modalOpen" class="fixed inset-0 z-[60] flex items-center justify-center bg-gradient-to-t from-slate-950/60 to-slate-950/30 backdrop-blur-md p-4" x-cloak>
+        <div @click.away="modalOpen = false"
+             x-show="modalOpen"
+             x-transition:enter="transition ease-out duration-300 transform"
+             x-transition:enter-start="opacity-0 scale-95"
+             x-transition:enter-end="opacity-100 scale-100"
+             class="bg-white w-full max-w-2xl rounded-[48px] p-12 shadow-strong overflow-y-auto max-h-[90vh] relative border-4 border-brand-500">
+
+            <button @click="modalOpen = false" class="absolute top-6 right-6 w-14 h-14 bg-slate-100 rounded-2xl flex items-center justify-center text-slate-500 hover:bg-brand-50 hover:text-brand-600 active:scale-95 transition-all shadow-soft">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+
+            <template x-if="modalType === 'session' && selectedItem">
+                <div class="space-y-8">
+                    <div class="flex items-center gap-4">
+                        <span class="px-4 py-1.5 bg-brand-50 text-brand-600 rounded-xl text-xs font-black tracking-widest" x-text="selectedItem.code"></span>
+                        <span class="text-sm font-bold text-slate-400" x-text="selectedItem.time"></span>
+                    </div>
+                    <h2 class="text-3xl font-[900] leading-tight text-slate-900" x-text="selectedItem.title"></h2>
+                    <div class="flex flex-wrap gap-2">
+                        <template x-for="tag in selectedItem.hashtags" :key="tag">
+                            <span class="text-xs font-bold text-brand-500" x-text="'#'+tag"></span>
+                        </template>
+                    </div>
+                    <p class="text-base text-slate-600 leading-relaxed font-medium" x-text="selectedItem.description"></p>
+
+                    <template x-if="selectedItem.abstract">
+                        <div class="pt-8 border-t border-slate-100 space-y-4">
+                            <h4 class="text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Abstract</h4>
+                            <p class="text-sm text-slate-600 leading-relaxed whitespace-pre-wrap" x-text="selectedItem.abstract"></p>
+                        </div>
+                    </template>
+
+                    <div class="pt-10 border-t border-slate-100">
+                        <h4 class="text-[10px] font-black text-slate-300 mb-8 uppercase tracking-[0.3em]">Session Speakers</h4>
+                        <div class="grid grid-cols-1 gap-6">
+                            <template x-for="sid in selectedItem.speaker_ids" :key="sid">
+                                <div class="flex items-center gap-5 p-4 bg-slate-50 rounded-[32px] cursor-pointer hover:bg-slate-100 transition-all" @click="openSpeaker(getSpeaker(sid))">
+                                    <template x-if="getSpeaker(sid).image">
+                                        <img :src="getSpeaker(sid).image" class="w-16 h-16 rounded-[20px] object-cover bg-white shadow-sm" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                    </template>
+                                    <div x-show="!getSpeaker(sid).image" class="w-16 h-16 rounded-[20px] bg-gradient-to-br from-brand-500 to-brand-600 shadow-sm flex items-center justify-center text-white text-xl font-black">
+                                        <span x-text="getSpeaker(sid).name ? getSpeaker(sid).name.charAt(0) : '?'"></span>
+                                    </div>
+                                    <div>
+                                        <div class="text-base font-black text-slate-800" x-text="getSpeaker(sid).name"></div>
+                                        <div class="text-[10px] font-bold text-slate-400 mt-1 uppercase" x-text="getSpeaker(sid).affiliation"></div>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <template x-if="modalType === 'speaker' && selectedItem">
+                <div class="text-center space-y-8">
+                    <div class="relative inline-block">
+                        <template x-if="selectedItem.image">
+                            <img :src="selectedItem.image" class="w-40 h-40 rounded-[48px] mx-auto object-cover shadow-2xl border-8 border-slate-50" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        </template>
+                        <div x-show="!selectedItem.image" class="w-40 h-40 rounded-[48px] mx-auto shadow-2xl border-8 border-slate-50 bg-gradient-to-br from-brand-500 to-brand-600 flex items-center justify-center text-white text-5xl font-black">
+                            <span x-text="selectedItem.name ? selectedItem.name.charAt(0) : '?'"></span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="text-xs font-black text-brand-500 mb-2 tracking-[0.2em] uppercase" x-text="selectedItem.kana"></div>
+                        <h2 class="text-3xl font-[900] text-slate-900" x-text="selectedItem.name"></h2>
+                        <p class="text-sm font-bold text-slate-400 mt-4 leading-relaxed max-w-sm mx-auto" x-text="selectedItem.affiliation"></p>
+                    </div>
+                    <div class="pt-10 border-t border-slate-100 text-left">
+                        <h4 class="text-[10px] font-black text-slate-300 mb-6 uppercase tracking-[0.3em]">Appearance</h4>
+                        <div class="space-y-4">
+                            <template x-for="s in getSessionsBySpeaker(selectedItem.id)" :key="s.id">
+                                <div @click="openSession(s)" class="p-5 bg-slate-50 rounded-[28px] border border-white flex items-center justify-between">
+                                    <div class="flex-1">
+                                        <p class="text-[10px] font-black text-brand-500 mb-1" x-text="s.code"></p>
+                                        <h5 class="text-sm font-black text-slate-800" x-text="s.title"></h5>
+                                    </div>
+                                    <i class="fa-solid fa-chevron-right text-slate-200"></i>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+
+    <div x-show="loading" class="fixed inset-0 z-[100] bg-white flex flex-col items-center justify-center" x-cloak>
+        <div class="relative w-20 h-20">
+            <div class="absolute inset-0 border-4 border-brand-100 rounded-full"></div>
+            <div class="absolute inset-0 border-4 border-brand-600 rounded-full border-t-transparent animate-spin"></div>
+        </div>
+        <p class="text-[10px] font-black text-brand-600 mt-8 tracking-[0.4em] uppercase animate-pulse">同期中</p>
+    </div>
+
+    <!-- Main Application Logic -->
+    <script src="js/app.js"></script>
+</body>
+</html>
