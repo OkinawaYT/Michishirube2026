@@ -322,15 +322,39 @@
                         </template>
 
                         <template x-if="slot.is_parallel">
-                            <div class="grid grid-cols-1 gap-4">
-                                <template x-for="s in getFilteredSessionsByTime(slot.time_range)" :key="s.id">
-                                    <div @click="openSession(s)" class="bg-white p-5 rounded-[28px] bento-card flex items-center gap-5 cursor-pointer">
-                                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-brand-50 to-brand-100 flex items-center justify-center text-sm font-black text-brand-600 border-2 border-brand-200 shadow-soft" x-text="s.venue_id"></div>
-                                        <div class="flex-1 min-w-0">
-                                            <h4 class="text-base font-black text-slate-800 mb-1" x-text="s.title"></h4>
-                                            <p class="text-xs text-slate-500 font-bold" x-text="s.code"></p>
+                            <div class="space-y-4">
+                                <div class="grid grid-cols-1 gap-4">
+                                    <template x-for="s in getFilteredSessionsByTime(slot.time_range)" :key="s.id">
+                                        <div @click="openSession(s)" class="bg-white p-5 rounded-[28px] bento-card flex items-center gap-5 cursor-pointer">
+                                            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-brand-50 to-brand-100 flex items-center justify-center text-sm font-black text-brand-600 border-2 border-brand-200 shadow-soft" x-text="s.venue_id"></div>
+                                            <div class="flex-1 min-w-0">
+                                                <h4 class="text-base font-black text-slate-800 mb-1" x-text="s.title"></h4>
+                                                <p class="text-xs text-slate-500 font-bold" x-text="s.code"></p>
+                                            </div>
+                                            <i class="fa-solid fa-chevron-right text-brand-300 text-sm"></i>
                                         </div>
-                                        <i class="fa-solid fa-chevron-right text-brand-300 text-sm"></i>
+                                    </template>
+                                </div>
+
+                                <template x-if="getGymEventsByTimeRange(slot.time_range).length > 0">
+                                    <div class="bg-gradient-to-br from-purple-50 to-pink-50 p-5 rounded-[28px] border-2 border-purple-200 shadow-soft">
+                                        <div class="flex items-center gap-3 mb-4">
+                                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-md">
+                                                <i class="fa-solid fa-music text-white text-sm"></i>
+                                            </div>
+                                            <h4 class="text-sm font-black text-purple-900">🏟️ 体育館イベント</h4>
+                                        </div>
+                                        <div class="space-y-2">
+                                            <template x-for="event in getGymEventsByTimeRange(slot.time_range)" :key="event.time">
+                                                <div class="bg-white/80 backdrop-blur-sm p-3 rounded-2xl flex items-center gap-3">
+                                                    <span class="text-xs font-bold text-purple-600 bg-purple-100 px-3 py-1 rounded-full whitespace-nowrap" x-text="event.time"></span>
+                                                    <div class="flex-1 min-w-0">
+                                                        <p class="text-sm font-bold text-slate-900" x-text="event.title"></p>
+                                                        <p class="text-xs text-slate-600 font-medium" x-text="event.type"></p>
+                                                    </div>
+                                                </div>
+                                            </template>
+                                        </div>
                                     </div>
                                 </template>
                             </div>
@@ -526,13 +550,13 @@
 
                     <template x-if="selectedItem.abstract">
                         <div class="pt-8 border-t border-slate-100 space-y-4">
-                            <h4 class="text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">Abstract</h4>
+                            <h4 class="text-[10px] font-black text-slate-300 uppercase tracking-[0.3em]">概要</h4>
                             <p class="text-sm text-slate-600 leading-relaxed whitespace-pre-wrap" x-text="selectedItem.abstract"></p>
                         </div>
                     </template>
 
                     <div class="pt-10 border-t border-slate-100">
-                        <h4 class="text-[10px] font-black text-slate-300 mb-8 uppercase tracking-[0.3em]">Session Speakers</h4>
+                        <h4 class="text-[10px] font-black text-slate-300 mb-8 uppercase tracking-[0.3em]">登壇者</h4>
                         <div class="grid grid-cols-1 gap-6">
                             <template x-for="sid in selectedItem.speaker_ids" :key="sid">
                                 <div class="flex items-center gap-5 p-4 bg-slate-50 rounded-[32px] cursor-pointer hover:bg-slate-100 transition-all" @click="openSpeaker(getSpeaker(sid))">

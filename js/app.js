@@ -46,6 +46,7 @@ function app() {
         speakers: [],
         timeline_structure: [],
         venues: [],
+        gym_events: [],
 
         notices: [],
         parking: [],
@@ -114,6 +115,7 @@ function app() {
                 this.speakers = master.speakers || [];
                 this.timeline_structure = master.timeline_structure || [];
                 this.venues = master.venues || [];
+                this.gym_events = master.gym_events || [];
 
                 if (config.features.enableConsoleLogging) {
                     console.log(`%c✅ Master loaded`, config.console.styles.success);
@@ -121,6 +123,7 @@ function app() {
                     console.log(`   👤 Speakers: ${this.speakers.length}`);
                     console.log(`   🏢 Venues: ${this.venues.length}`);
                     console.log(`   ⏰ Timeslots: ${this.timeline_structure.length}`);
+                    console.log(`   🏃 Gym Events: ${this.gym_events.length}`);
 
                     if (this.sessions.length > 0) {
                         console.log('%c📌 Sample:', config.console.styles.light, this.sessions[0]);
@@ -136,6 +139,7 @@ function app() {
                 this.speakers = [];
                 this.timeline_structure = [];
                 this.venues = [];
+                this.gym_events = [];
             }
         },
 
@@ -322,6 +326,16 @@ function app() {
 
         getSessionsByTime(time) {
             return this.sessions.filter(s => s.time === time);
+        },
+
+        getGymEventsByTimeRange(timeRange) {
+            if (!timeRange) return [];
+            const [start, end] = timeRange.split('-').map(t => t.trim());
+
+            return this.gym_events.filter(event => {
+                const [eventStart] = event.time.split('-').map(t => t.trim());
+                return eventStart >= start && eventStart < end;
+            });
         },
 
         getSpeaker(id) {
